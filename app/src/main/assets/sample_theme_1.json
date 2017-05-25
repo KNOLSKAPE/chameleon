@@ -1,0 +1,51 @@
+{
+  "sampleStyle1":{
+    "borderRadius":"10",
+    "borderWidth":"3",
+    "borderColor":"#3F9C35",
+    "bgGradientColors":"#0075B0, #3F9C35",
+    "textColor":"#FFFFFF",
+    "bgGradientType":"BL_TR",
+    "textSize":"16"
+  },
+  "sampleStyle2":{
+    "borderRadius":"15",
+    "textColor":"#000000",
+    "borderWidth":"3",
+    "textSize":"16",
+    "borderColor":"#0075B0"
+  },
+  "sampleStyle3":{
+    "borderRadius":"20",
+    "borderWidth":"3",
+    "borderColor":"#af7219",
+    "bgGradientColors":"#af7219, #fcd651",
+    "textColor":"#FFFFFF",
+    "bgGradientType":"BOTTOM_TOP",
+    "textSize":"16"
+  },
+  "sampleStyle4":{
+    "borderRadius":"25",
+    "borderWidth":"3",
+    "borderColor":"#777b80",
+    "bgGradientColors":"#777b80, #d8dbdd",
+    "textColor":"#FFFFFF",
+    "bgGradientType":"LEFT_RIGHT",
+    "textSize":"16"
+  },
+  "sampleStyle5":{
+    "borderRadius":"50",
+    "borderWidth":"3",
+    "borderColor":"#741705",
+    "bgGradientColors":"#741705, #e5a785",
+    "textColor":"#FFFFFF",
+    "bgGradientType":"TOP_BOTTOM",
+    "textSize":"16"
+  }
+}
+
+
+
+
+
+

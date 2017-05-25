@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.knolskape.chameleon.MainActivity"
+    android:orientation="vertical"
+    >
+<!-- Note how we supplied the style name from the json in the tag here-->
+  <TextView
+      android:layout_width="match_parent"
+      android:gravity="center"
+      android:layout_height="70dp"
+      android:layout_margin="10dp"
+      android:text="Sample Style 1"
+      android:tag="sampleStyle1"
+      />
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="70dp"
+      android:text="Sample Style 2"
+      android:gravity="center"
+      android:tag="sampleStyle2"
+      android:layout_margin="10dp"
+      />
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="70dp"
+      android:text="Sample Style 3"
+      android:gravity="center"
+      android:tag="sampleStyle3"
+      android:layout_margin="10dp"
+      />
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="70dp"
+      android:text="Sample Style 4"
+      android:gravity="center"
+      android:tag="sampleStyle4"
+      android:layout_margin="10dp"
+      />
+  <TextView
+      android:layout_width="match_parent"
+      android:layout_height="70dp"
+      android:text="Sample Style 5"
+      android:gravity="center"
+      android:tag="sampleStyle5"
+      android:layout_margin="10dp"
+      />
+
+</LinearLayout>
