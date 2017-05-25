@@ -8,7 +8,7 @@ Chameleon is a CSS like framework for Android. Chameleon can read styles in JSON
 
 
 
-![](blob:chrome-extension://cdneggiaafcmelgcaiihmhiagieomgfj/0a8917c3-dd80-46cc-a801-6c1da4274eb3)
+![](https://knolskape.s3.amazonaws.com/MLS/ktm1/1495693818_chameleon.jpg)
 
 
 ## Steps
