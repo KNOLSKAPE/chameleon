@@ -2,10 +2,28 @@
 
 -----
 
+## Motivation
+
+Have you ever stumbled upon a situation where you want to show completely different themes of the same app for different sets of your app users?
+If yes, you must have definitely worried about the clutter it adds in your code to maintain different drawables for different cohorts of users; this also includes updating your code for every new theme that has to be added.
+
+Chameleon is here to save you from that hassle! 
+
+
 ## Introduction
 
-Chameleon is a CSS like framework for Android. Chameleon can read styles in JSON format and apply them on views in Android. This way you can skip all the painful steps involved in creating drawables etc.. As of now, Chamelon is limited to only changing the appearence of the views and not the positioning. 
 
+Chameleon is a **CSS like framework for Android**. Chameleon can read styles in JSON format and apply them on views in Android. This way you can skip all the painful steps involved in creating drawables etc.. As of now, Chamelon is limited to only changing the appearence of the views and not the positioning. 
+
+**Not only can you choose from the variety of styles provided by the library but also add your own styles by changing just one file. **
+
+**The icing on the cake is, once set up, themes can be updated without pushing a new version of your app to the playstore. So, your users can see your changes on the fly.**
+
+Also, we will be soon updating the library to enable you to save your themes' key-values in your backend and hence, not disturb your app codebase!  
+
+
+-----
+  
 
 
 ![](https://knolskape.s3.amazonaws.com/MLS/ktm1/1495693818_chameleon.jpg)
