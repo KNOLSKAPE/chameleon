@@ -26,7 +26,7 @@ Also, we will be soon updating the library to enable you to save your themes' ke
   
 
 
-![](https://knolskape.s3.amazonaws.com/MLS/ktm1/1495693818_chameleon.jpg)
+![CSS to Drawables](https://knolskape.s3.amazonaws.com/MLS/ktm1/1495693818_chameleon.jpg)
 
 
 ## Steps
