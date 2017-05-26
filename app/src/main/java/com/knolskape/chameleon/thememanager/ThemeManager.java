@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,11 +18,11 @@ import java.util.Set;
 
 public class ThemeManager {
 
-  JsonElement rulesJson;
+  JsonObject rulesJson;
   OnLoadResourceListener listener;
 
 
-  public ThemeManager(OnLoadResourceListener listener, JsonElement rulesJson){
+  public ThemeManager(OnLoadResourceListener listener, JsonObject rulesJson){
     this.listener = listener;
     this.rulesJson = rulesJson;
   }
@@ -57,7 +58,7 @@ public class ThemeManager {
     }
 
     if(tag != null){
-      JsonElement rule = rulesJson.getAsJsonObject().get(tag);
+      JsonObject rule = rulesJson.get(tag).getAsJsonObject();
       if(rule != null){
         applyDrawableStyles(rule, view);
         applyTextStyles(rule, view);
@@ -65,8 +66,8 @@ public class ThemeManager {
     }
   }
 
-  private void applyDrawableStyles(JsonElement ruleObj, View view){
-    Set<Map.Entry<String, JsonElement>> rules = ruleObj.getAsJsonObject().entrySet();
+  private void applyDrawableStyles(JsonObject ruleObj, View view){
+    Set<Map.Entry<String, JsonElement>> rules = ruleObj.entrySet();
     CDrawable drawable = CDrawable.build(listener.context());
     for(Map.Entry<String, JsonElement> entry: rules){
       String ruleKey = entry.getKey();
@@ -102,8 +103,8 @@ public class ThemeManager {
     }
   }
 
-  private void applyTextStyles(JsonElement ruleObj, View view){
-    Set<Map.Entry<String, JsonElement>> rules = ruleObj.getAsJsonObject().entrySet();
+  private void applyTextStyles(JsonObject ruleObj, View view){
+    Set<Map.Entry<String, JsonElement>> rules = ruleObj.entrySet();
     if(view instanceof TextView){
       for(Map.Entry<String, JsonElement> entry: rules){
         String ruleKey = entry.getKey();
