@@ -1,20 +1,15 @@
 package com.knolskape.chameleon.thememanager;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
-import com.knolskape.chameleon.Lex.Lex;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 import java.util.Set;
+
 
 /**
  * Created by omkar on 24/5/17.
@@ -22,37 +17,14 @@ import java.util.Set;
 
 public class ThemeManager {
 
-  Context context;
-  Lex lex;
   JsonElement rulesJson;
+  OnLoadResourceListener listener;
 
-  public ThemeManager(Context context){
-    this.context = context;
+
+  public ThemeManager(OnLoadResourceListener listener, JsonElement rulesJson){
+    this.listener = listener;
+    this.rulesJson = rulesJson;
   }
-
-  public static ThemeManager build(Context context){
-
-    ThemeManager manager = new ThemeManager(context);
-
-    Gson gson = new Gson();
-    try{
-      InputStream is = context.getAssets().open("sample_theme_1.json");
-      int size = is.available();
-      byte[] buffer = new byte[size];
-      is.read(buffer);
-      is.close();
-      String jsonString = new String(buffer, "UTF-8");
-      manager.rulesJson = gson.fromJson(jsonString, JsonElement.class);
-      Log.d("Success", jsonString);
-
-    }catch (IOException e){
-      Log.e("Error in opening file", e.getMessage(), e);
-    }
-
-    return manager;
-  }
-
-
 
   public void applyTheme(ViewGroup view){
     int numOfViews = view.getChildCount();
@@ -73,12 +45,10 @@ public class ThemeManager {
 
 
   public void applyTheme(View view){
-
     Object tagObj = view.getTag();
     if(tagObj == null){
       return;
     }
-
     String tag = null;
     if(tagObj instanceof String){
       tag = (String) tagObj;
@@ -88,19 +58,19 @@ public class ThemeManager {
 
     if(tag != null){
       JsonElement rule = rulesJson.getAsJsonObject().get(tag);
-      applyDrawableStyles(rule, view);
-      applyTextStyles(rule, view);
+      if(rule != null){
+        applyDrawableStyles(rule, view);
+        applyTextStyles(rule, view);
+      }
     }
   }
 
   private void applyDrawableStyles(JsonElement ruleObj, View view){
     Set<Map.Entry<String, JsonElement>> rules = ruleObj.getAsJsonObject().entrySet();
-    CDrawable drawable = CDrawable.build(context);
+    CDrawable drawable = CDrawable.build(listener.context());
     for(Map.Entry<String, JsonElement> entry: rules){
       String ruleKey = entry.getKey();
       String ruleValue  = entry.getValue().getAsString();
-      Log.d("key", ruleKey);
-      Log.d("value", ruleValue);
       if(ruleKey.equals("borderRadius")){
         if(isNumeric(ruleValue)){
           drawable = drawable.withCornerRadius(Integer.parseInt(ruleValue));
@@ -138,8 +108,6 @@ public class ThemeManager {
       for(Map.Entry<String, JsonElement> entry: rules){
         String ruleKey = entry.getKey();
         String ruleValue  = entry.getValue().getAsString();
-        Log.d("key", ruleKey);
-        Log.d("value", ruleValue);
         if(ruleKey.equals("textSize")){
           if(isNumeric(ruleValue)){
             ((TextView) view).setTextSize(TypedValue.COMPLEX_UNIT_SP, Integer.parseInt(ruleValue));
@@ -170,4 +138,5 @@ public class ThemeManager {
     }
     return drawable.withColors(colorArray);
   }
+
 }

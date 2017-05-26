@@ -105,3 +105,11 @@ Also, we will be soon updating the library to enable you to save your themes' ke
 
 ```
 
+### WIP
+
+* Making a gradle plugin
+* Read JSON from server
+* Suport drawable tint for API < 21
+* Combine local and server styles
+* Include multiple style files
+* Exception handling
