@@ -1,10 +1,13 @@
 package com.knolskape.chameleon.thememanager;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
@@ -20,17 +23,14 @@ import okhttp3.Response;
 
 public class ThemeManagerBuilder{
 
-  JsonElement rulesJson;
+  JsonObject rulesJson;
   int numOfRequestsPending = 0;
   boolean isBuildInvocted = false;
   OnLoadResourceListener listener;
 
-  public ThemeManagerBuilder(OnLoadResourceListener listener){
-    this.listener = listener;
-  }
 
-  public static ThemeManagerBuilder builder(OnLoadResourceListener listener){
-    return new ThemeManagerBuilder(listener);
+  public static ThemeManagerBuilder builder(){
+    return new ThemeManagerBuilder();
   }
   public ThemeManagerBuilder withAsset(String fileName){
     Gson gson = new Gson();
@@ -41,12 +41,13 @@ public class ThemeManagerBuilder{
       is.read(buffer);
       is.close();
       String jsonString = new String(buffer, "UTF-8");
-      JsonElement newJsonElement = gson.fromJson(jsonString, JsonElement.class);
+      JsonObject newJsonElement = gson.fromJson(jsonString, JsonElement.class).getAsJsonObject();
 
       if(rulesJson == null){
         rulesJson = newJsonElement;
       }else{
-        rulesJson = mergeJson(new JsonElement[]{rulesJson, newJsonElement});
+        rulesJson = mergeJson(new JsonObject[]{rulesJson, newJsonElement});
+
       }
 
 
@@ -54,6 +55,11 @@ public class ThemeManagerBuilder{
       Log.e("Error in reading file", e.getMessage(), e);
     }
 
+    return this;
+  }
+
+  public ThemeManagerBuilder withListener(OnLoadResourceListener listener){
+    this.listener = listener;
     return this;
   }
 
@@ -93,11 +99,11 @@ public class ThemeManagerBuilder{
     @Override protected void onPostExecute(String s) {
       numOfRequestsPending--;
       Gson gson = new Gson();
-      JsonElement newJsonElement = gson.fromJson(s, JsonElement.class);
+      JsonObject newJsonObject = gson.fromJson(s, JsonElement.class).getAsJsonObject();
       if(rulesJson == null){
-        rulesJson = newJsonElement;
+        rulesJson = newJsonObject;
       }else{
-        rulesJson = mergeJson(new JsonElement[]{rulesJson, newJsonElement});
+        rulesJson = mergeJson(new JsonObject[]{rulesJson, newJsonObject});
       }
       if(numOfRequestsPending == 0 && isBuildInvocted){
         listener.onLoadFinished(new ThemeManager(listener, rulesJson));
@@ -105,18 +111,19 @@ public class ThemeManagerBuilder{
     }
   }
 
-  public static JsonElement mergeJson(JsonElement[] jsonElements){
-    Set<Map.Entry<String, JsonElement>> finalRuleSet = new HashSet<Map.Entry<String, JsonElement>>();
+  public static JsonObject mergeJson(JsonObject[] jsonObjects){
+    JsonObject finalObject = new JsonObject();
 
-    for(JsonElement jsonElement: jsonElements){
-      for(Map.Entry<String, JsonElement> entry : jsonElement.getAsJsonObject().entrySet()){
-        finalRuleSet.add(entry);
+    for(JsonObject jsonObject: jsonObjects){
+      for(Map.Entry<String, JsonElement> entry : jsonObject.entrySet()){
+        if(!(finalObject.get(entry.getKey()) instanceof JsonNull)){
+          finalObject.remove(entry.getKey());
+        }
+        finalObject.add(entry.getKey(), entry.getValue());
       }
     }
 
-    Gson gson = new Gson();
-    //return gson.fromJson(gson.toJson(finalRuleSet), JsonElement.class);
-    return jsonElements[0];
+    return finalObject;
   }
 
 
