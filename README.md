@@ -37,23 +37,23 @@ Also, we will be soon updating the library to enable you to save your themes' ke
 @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-		
-    ThemeManager.build(this).applyTheme((ViewGroup) findViewById(android.R.id.content));
+		OnLoadResourceListener listener = new OnLoadResourceListener() {
+          @Override public void onLoadFinished(ThemeManager themeManager) {
+            themeManager.applyTheme((ViewGroup) findViewById(android.R.id.content));
+          }
+    
+          @Override public Context context() {
+            return MainActivity.this;
+          }
+        };
+    
+       ThemeManagerBuilder
+           .builder(listener)
+           .withUrl("https://knolskape.s3.amazonaws.com/MLS/ktm1/1495780632_sample_theme_1.json")
+           .withAsset("sample_theme_1.json")
+           .build();
 		
  }
-```
-### Inside Fragment
-```
-@Nullable @Override
-  public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
-    ViewGroup rootView = (ViewGroup) inflater.inflate(
-        R.layout.fragment, container, false);
-				
-    ThemeManager.build(getActivity())..applyTheme(rootView);
-		
-    return rootView;
-  }
 ```
 
 ### Create your style JSON
