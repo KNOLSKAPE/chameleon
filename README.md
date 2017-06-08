@@ -48,7 +48,8 @@ repositories {
 @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-		OnLoadResourceListener listener = new OnLoadResourceListener() {
+    
+		    OnLoadResourceListener listener = new OnLoadResourceListener() {
           @Override public void onLoadFinished(ThemeManager themeManager) {
             themeManager.applyTheme((ViewGroup) findViewById(android.R.id.content));
           }
@@ -58,11 +59,19 @@ repositories {
           }
         };
     
+        // use styles file from server
+        
        ThemeManagerBuilder
            .builder(listener)
            .withUrl("https://knolskape.s3.amazonaws.com/MLS/ktm1/1495780632_sample_theme_1.json")
-           .withAsset("sample_theme_1.json")
            .build();
+       					 
+       	// use local style file
+       			
+        ThemeManagerBuilder
+            .builder(listener)
+            .withAsset("sample_theme_1.json")
+            .build();
 		
  }
 ```
