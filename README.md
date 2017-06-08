@@ -31,6 +31,17 @@ Also, we will be soon updating the library to enable you to save your themes' ke
 
 ## Steps
 
+### Inside your build.gradle
+```
+repositories {
+        jcenter()
+        maven { url "https://jitpack.io" }
+   }
+   dependencies {
+         compile 'com.github.knolskape:chameleon:v1.0'
+   }
+   ```
+
 ### Inside your Activity
 
 ```
