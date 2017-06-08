@@ -125,6 +125,10 @@ repositories {
 
 ```
 
+### Maintained by
+* Omkar Hande
+* Sai Kamisetti
+
 ### WIP
 
 * Making a gradle plugin
