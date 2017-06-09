@@ -8,5 +8,4 @@ import android.content.Context;
 
 public interface OnLoadResourceListener {
   public void onLoadFinished(ThemeManager themeManager);
-  public Context context();
 }
