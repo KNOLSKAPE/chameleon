@@ -10,7 +10,9 @@ import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import okhttp3.OkHttpClient;
@@ -27,15 +29,27 @@ public class ThemeManagerBuilder{
   int numOfRequestsPending = 0;
   boolean isBuildInvocted = false;
   OnLoadResourceListener listener;
+  List<OnLoadResourceListener> listenerList = new ArrayList<OnLoadResourceListener>();
+  ThemeManager manager;
 
+  private static ThemeManagerBuilder builder;
 
   public static ThemeManagerBuilder builder(){
     return new ThemeManagerBuilder();
   }
-  public ThemeManagerBuilder withAsset(String fileName){
+
+  public static ThemeManagerBuilder getInstance(){
+    if(builder == null){
+      builder = new ThemeManagerBuilder();
+    }
+    return builder;
+  }
+
+
+  public ThemeManagerBuilder withAsset(String fileName, Context context){
     Gson gson = new Gson();
     try{
-      InputStream is = listener.context().getAssets().open(fileName);
+      InputStream is = context.getAssets().open(fileName);
       int size = is.available();
       byte[] buffer = new byte[size];
       is.read(buffer);
@@ -47,10 +61,7 @@ public class ThemeManagerBuilder{
         rulesJson = newJsonElement;
       }else{
         rulesJson = mergeJson(new JsonObject[]{rulesJson, newJsonElement});
-
       }
-
-
     }catch (IOException e){
       Log.e("Error in reading file", e.getMessage(), e);
     }
@@ -58,9 +69,13 @@ public class ThemeManagerBuilder{
     return this;
   }
 
-  public ThemeManagerBuilder withListener(OnLoadResourceListener listener){
-    this.listener = listener;
-    return this;
+  public void addListener(OnLoadResourceListener listener){
+    if(numOfRequestsPending == 0 && manager != null && listenerList.isEmpty()){
+      listener.onLoadFinished(manager);
+    }else{
+      this.listenerList.add(listener);
+    }
+
   }
 
   public ThemeManagerBuilder withUrl(String url){
@@ -74,8 +89,8 @@ public class ThemeManagerBuilder{
     if(numOfRequestsPending > 0){
       isBuildInvocted = true;
     }else{
-      Log.d("Rules while building = ", rulesJson.toString());
-      listener.onLoadFinished(new ThemeManager(listener, rulesJson));
+      manager = new ThemeManager(rulesJson);
+      listener.onLoadFinished(manager);
     }
   }
 
@@ -105,8 +120,12 @@ public class ThemeManagerBuilder{
       }else{
         rulesJson = mergeJson(new JsonObject[]{rulesJson, newJsonObject});
       }
-      if(numOfRequestsPending == 0 && isBuildInvocted){
-        listener.onLoadFinished(new ThemeManager(listener, rulesJson));
+      if(numOfRequestsPending == 0 ){
+        manager = new ThemeManager(rulesJson);
+        for(OnLoadResourceListener listenerItem: listenerList){
+          listenerItem.onLoadFinished(manager);
+        }
+        listenerList.clear();
       }
     }
   }

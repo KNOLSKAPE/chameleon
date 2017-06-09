@@ -11,7 +11,7 @@
   "sampleStyle2":{
     "borderRadius":"15",
     "textColor":"#000000",
-    "borderWidth":"3",
+    "borderWidth":"10",
     "textSize":"16",
     "borderColor":"#0075B0"
   },
