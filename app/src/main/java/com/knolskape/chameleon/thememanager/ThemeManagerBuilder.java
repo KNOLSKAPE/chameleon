@@ -70,7 +70,10 @@ public class ThemeManagerBuilder{
   }
 
   public void addListener(OnLoadResourceListener listener){
-    if(numOfRequestsPending == 0 && manager != null && listenerList.isEmpty()){
+    if(listenerList.isEmpty()){
+      if(manager == null){
+        manager = new ThemeManager(rulesJson);
+      }
       listener.onLoadFinished(manager);
     }else{
       this.listenerList.add(listener);
@@ -83,15 +86,6 @@ public class ThemeManagerBuilder{
     LoadStyleTask task = new LoadStyleTask();
     task.execute(new String[]{url});
     return this;
-  }
-
-  public void build(){
-    if(numOfRequestsPending > 0){
-      isBuildInvocted = true;
-    }else{
-      manager = new ThemeManager(rulesJson);
-      listener.onLoadFinished(manager);
-    }
   }
 
 
@@ -121,7 +115,10 @@ public class ThemeManagerBuilder{
         rulesJson = mergeJson(new JsonObject[]{rulesJson, newJsonObject});
       }
       if(numOfRequestsPending == 0 ){
-        manager = new ThemeManager(rulesJson);
+        if(manager == null){
+          manager = new ThemeManager(rulesJson);
+        }
+
         for(OnLoadResourceListener listenerItem: listenerList){
           listenerItem.onLoadFinished(manager);
         }
