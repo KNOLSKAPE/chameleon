@@ -131,10 +131,8 @@ repositories {
 
 ### WIP
 
-* Making a gradle plugin
-* Merge server and local JSON files
 * Save JSON offline
-* Suport drawable tint for API < 21
-* Combine local and server styles
-* Include multiple style files
 * Exception handling
+* Suport drawable tint for API < 21
+
+
