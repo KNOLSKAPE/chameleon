@@ -31,6 +31,15 @@ Also, we will be soon updating the library to enable you to save your themes' ke
 
 ## Steps
 
+### 1. Create an Application file under root directory
+
+```
+ThemeManagerBuilder
+        .getInstance()
+        .withUrl("https://knolskape.s3.amazonaws.com/MLS/ktm1/1495780632_sample_theme_1.json")
+        .withAsset("sample_theme_1.json", context);
+```
+
 ### Inside your Activity
 
 ```
@@ -39,24 +48,17 @@ Also, we will be soon updating the library to enable you to save your themes' ke
     setContentView(R.layout.activity_main);
 		OnLoadResourceListener listener = new OnLoadResourceListener() {
           @Override public void onLoadFinished(ThemeManager themeManager) {
-            themeManager.applyTheme((ViewGroup) findViewById(android.R.id.content));
-          }
-    
-          @Override public Context context() {
-            return MainActivity.this;
+            themeManager.applyTheme((ViewGroup) findViewById(android.R.id.content), MainActivity.this);
           }
         };
     
-       ThemeManagerBuilder
-           .builder(listener)
-           .withUrl("https://knolskape.s3.amazonaws.com/MLS/ktm1/1495780632_sample_theme_1.json")
-           .withAsset("sample_theme_1.json")
-           .build();
-		
+    ThemeManagerBuilder
+      .getInstance()
+      .addListener(listener);
  }
 ```
 
-### Create your style JSON
+### Create your style JSON file under the assets folder or give a remote
 
 ```
 {
@@ -77,6 +79,7 @@ Also, we will be soon updating the library to enable you to save your themes' ke
     "borderColor":"#0075B0"
   }
 }
+
 ```
 
 
