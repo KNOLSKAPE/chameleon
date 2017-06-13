@@ -1,5 +1,6 @@
 package com.knolskape.chameleon.thememanager;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,26 +19,24 @@ import java.util.Set;
 
 public class ThemeManager {
 
-  JsonElement rulesJson;
-  OnLoadResourceListener listener;
+  JsonObject rulesJson;
 
 
-  public ThemeManager(OnLoadResourceListener listener, JsonElement rulesJson){
-    this.listener = listener;
+  public ThemeManager(JsonObject rulesJson){
     this.rulesJson = rulesJson;
   }
 
-  public void applyTheme(ViewGroup view){
+  public void applyTheme(ViewGroup view, Context context){
     int numOfViews = view.getChildCount();
-    applyTheme((View) view);
+    applyTheme((View) view, context);
     View childView = null;
 
     for(int i=0; i<numOfViews; i++){
       childView = view.getChildAt(i);
       if(childView instanceof ViewGroup){
-        applyTheme((ViewGroup) childView);
+        applyTheme((ViewGroup) childView, context);
       }else{
-        applyTheme(childView);
+        applyTheme(childView, context);
       }
 
     }
@@ -44,7 +44,7 @@ public class ThemeManager {
 
 
 
-  public void applyTheme(View view){
+  public void applyTheme(View view, Context context){
     Object tagObj = view.getTag();
     if(tagObj == null){
       return;
@@ -57,17 +57,17 @@ public class ThemeManager {
     }
 
     if(tag != null){
-      JsonElement rule = rulesJson.getAsJsonObject().get(tag);
+      JsonObject rule = rulesJson.get(tag).getAsJsonObject();
       if(rule != null){
-        applyDrawableStyles(rule, view);
+        applyDrawableStyles(rule, view, context);
         applyTextStyles(rule, view);
       }
     }
   }
 
-  private void applyDrawableStyles(JsonElement ruleObj, View view){
-    Set<Map.Entry<String, JsonElement>> rules = ruleObj.getAsJsonObject().entrySet();
-    CDrawable drawable = CDrawable.build(listener.context());
+  private void applyDrawableStyles(JsonObject ruleObj, View view, Context context){
+    Set<Map.Entry<String, JsonElement>> rules = ruleObj.entrySet();
+    CDrawable drawable = CDrawable.build(context);
     for(Map.Entry<String, JsonElement> entry: rules){
       String ruleKey = entry.getKey();
       String ruleValue  = entry.getValue().getAsString();
@@ -102,8 +102,8 @@ public class ThemeManager {
     }
   }
 
-  private void applyTextStyles(JsonElement ruleObj, View view){
-    Set<Map.Entry<String, JsonElement>> rules = ruleObj.getAsJsonObject().entrySet();
+  private void applyTextStyles(JsonObject ruleObj, View view){
+    Set<Map.Entry<String, JsonElement>> rules = ruleObj.entrySet();
     if(view instanceof TextView){
       for(Map.Entry<String, JsonElement> entry: rules){
         String ruleKey = entry.getKey();
