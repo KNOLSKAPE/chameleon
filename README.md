@@ -31,7 +31,28 @@ Also, we will be soon updating the library to enable you to save your themes' ke
 
 ## Steps
 
-### 1. Create an Application file under root directory
+### In build.gradle
+```
+// Your gradle file should look something like this
+
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:2.3.2'
+
+}
+
+allprojects {
+  repositories {
+    jcenter()
+    maven { url 'https://jitpack.io' }
+  }
+}
+```
+
+### Inside your Application class file
 
 ```
 ThemeManagerBuilder
@@ -58,7 +79,7 @@ ThemeManagerBuilder
  }
 ```
 
-### Create your style JSON file under the assets folder or give a remote
+### Create your style JSON file under the assets folder or give a remote link
 
 ```
 {
