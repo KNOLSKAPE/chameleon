@@ -58,7 +58,7 @@ ThemeManagerBuilder
  }
 ```
 
-### Create your style JSON
+### Create your style JSON file under the assets folder or give a remote
 
 ```
 {
