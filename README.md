@@ -24,7 +24,7 @@ Chameleon is a **CSS like framework for Android**. Chameleon can read styles in 
   
 
 
-![CSS to Drawables](app/src/main/assets/chameleon.jpg)
+![CSS to Drawables](app/src/main/assets/Logo1.jpg)
 
 
 ## Steps
