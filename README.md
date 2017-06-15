@@ -1,6 +1,6 @@
 ![CSS to Drawables](app/src/main/assets/logo_horz.png)
 
-# Project Chameleon
+# Chameleon
 
 -----
 
