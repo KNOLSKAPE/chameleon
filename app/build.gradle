@@ -1,4 +1,4 @@
-apply plugin: 'com.android.library'
+apply plugin: 'com.android.application'
 
 android {
   compileSdkVersion 25
@@ -27,5 +27,11 @@ dependencies {
   compile 'com.android.support.constraint:constraint-layout:1.0.1'
   compile 'com.squareup.okhttp3:okhttp:3.8.0'
   compile 'com.google.code.gson:gson:2.7'
+  compile 'com.google.firebase:firebase-core:11.0.1'
+  compile 'com.google.firebase:firebase-database:11.0.1'
   testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'
+
+

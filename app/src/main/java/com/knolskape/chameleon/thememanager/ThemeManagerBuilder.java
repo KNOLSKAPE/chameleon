@@ -4,12 +4,21 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.ViewGroup;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +40,8 @@ public class ThemeManagerBuilder{
   OnLoadResourceListener listener;
   List<OnLoadResourceListener> listenerList = new ArrayList<OnLoadResourceListener>();
   ThemeManager manager;
+  FirebaseDatabase db;
+  DatabaseReference dbRef;
 
   private static ThemeManagerBuilder builder;
 
@@ -75,6 +86,8 @@ public class ThemeManagerBuilder{
         manager = new ThemeManager(rulesJson);
       }
       listener.onLoadFinished(manager);
+      //TODO check
+      this.listenerList.add(listener);
     }else{
       this.listenerList.add(listener);
     }
@@ -85,6 +98,47 @@ public class ThemeManagerBuilder{
     numOfRequestsPending++;
     LoadStyleTask task = new LoadStyleTask();
     task.execute(new String[]{url});
+    return this;
+  }
+
+  public ThemeManagerBuilder withFirebase(String url){
+
+    db = FirebaseDatabase.getInstance();
+    dbRef = db.getReference(url);
+
+    dbRef.addValueEventListener(new ValueEventListener() {
+      @Override public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+
+        String jsonString = new Gson().toJson(dataSnapshot.getValue());
+
+        Log.d("JSON", jsonString);
+
+        Gson gson = new GsonBuilder().setLenient().create();
+
+        JsonReader reader = new JsonReader(new StringReader(jsonString.trim()));
+        reader.setLenient(true);
+
+        JsonObject newJsonObject = gson.fromJson(reader, JsonElement.class);
+        if(rulesJson == null){
+          rulesJson = newJsonObject;
+        }else{
+          rulesJson = mergeJson(new JsonObject[]{rulesJson, newJsonObject});
+        }
+        Log.d("Listener list ", listenerList.toString());
+        for(OnLoadResourceListener listener: listenerList){
+          listener.onFirebaseChange(new ThemeManager(rulesJson));
+        }
+      }
+
+      @Override public void onCancelled(DatabaseError databaseError) {
+
+      }
+    });
+
+
+
     return this;
   }
 
@@ -122,10 +176,12 @@ public class ThemeManagerBuilder{
         for(OnLoadResourceListener listenerItem: listenerList){
           listenerItem.onLoadFinished(manager);
         }
-        listenerList.clear();
+        //listenerList.clear();
       }
     }
   }
+
+
 
   public static JsonObject mergeJson(JsonObject[] jsonObjects){
     JsonObject finalObject = new JsonObject();

@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "879685271217",
+    "firebase_url": "https://nimble-octagon-579.firebaseio.com",
+    "project_id": "nimble-octagon-579",
+    "storage_bucket": "nimble-octagon-579.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879685271217:android:ea9e8ce6f423cb5b",
+        "android_client_info": {
+          "package_name": "com.knolskape.chameleon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879685271217-2qpeluddje0d0r3iggi6kst9luu2gvmm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.knolskape.chameleon",
+            "certificate_hash": "021f88028a977f093bdf0d8271c6b546ad5242af"
+          }
+        },
+        {
+          "client_id": "879685271217-kpp42p0pgpuhml7745prttpanqhdl2ig.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "879685271217.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc5SaMuR-sjweHDQcc0eCnK96uVwtkozE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879685271217-kpp42p0pgpuhml7745prttpanqhdl2ig.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

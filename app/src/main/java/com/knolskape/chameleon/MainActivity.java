@@ -20,14 +20,20 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onLoadFinished(ThemeManager themeManager) {
         themeManager.applyTheme((ViewGroup) findViewById(android.R.id.content), MainActivity.this);
       }
+
+      @Override public void onFirebaseChange(ThemeManager themeManager) {
+        Log.d("UPDATE", "firebase change event");
+        themeManager.applyTheme((ViewGroup) findViewById(android.R.id.content), MainActivity.this);
+      }
     };
 
 
 
 
-    ThemeManagerBuilder
-        .getInstance()
-        .addListener(listener);
+    ThemeManagerBuilder builder = ThemeManagerBuilder
+        .getInstance();
+
+        builder.addListener(listener);
   }
 
 
