@@ -19,7 +19,8 @@ Chameleon is a **CSS like framework for Android**. Chameleon can read styles in 
 
 **The icing on the cake is, once set up, themes can be updated without pushing a new version of your app to the playstore. So, your users can see your changes on the fly, just by changing the style JSON files on your server.** 
 
-See this [medium article](https://medium.com/prod-io/our-first-contribution-to-the-open-source-community-6fbef1cc3660) for a more detailed story.
+See this [medium article](https://medium.com/prod-io/our-first-contribution-to-the-open-source-community-6fbef1cc3660) for a  more detailed story.
+
 -----
   
 
