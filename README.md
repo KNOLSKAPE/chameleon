@@ -131,9 +131,5 @@ ThemeManagerBuilder
 
 ### WIP
 
-* Making a gradle plugin
-* Read JSON from server
 * Suport drawable tint for API < 21
-* Combine local and server styles
-* Include multiple style files
 * Exception handling
