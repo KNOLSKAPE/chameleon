@@ -109,12 +109,7 @@ public class ThemeManagerBuilder{
     dbRef.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
 
-
-
         String jsonString = new Gson().toJson(dataSnapshot.getValue());
-
-        Log.d("JSON", jsonString);
-
         Gson gson = new GsonBuilder().setLenient().create();
 
         JsonReader reader = new JsonReader(new StringReader(jsonString.trim()));
@@ -126,7 +121,6 @@ public class ThemeManagerBuilder{
         }else{
           rulesJson = mergeJson(new JsonObject[]{rulesJson, newJsonObject});
         }
-        Log.d("Listener list ", listenerList.toString());
         for(OnLoadResourceListener listener: listenerList){
           listener.onFirebaseChange(new ThemeManager(rulesJson));
         }
